@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ephemeral Vanity Project</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- CSS Styling (FINAL CUSTOMIZED LOOK) --- */
+        /* --- CSS Styling (FINALIZED LOOK) --- */
         body {
             font-family: Arial, sans-serif; /* Default straight-lined font */
             background-color: #fffacd; /* Soft yellow background (Lemon Chiffon) */
@@ -17,7 +20,7 @@
             min-height: 100vh;
         }
 
-        /* Global Site Countdown - Hidden for "completely blank" look, but functional */
+        /* Global Site Countdown - Hidden on screen */
         #countdown-container {
             display: none; 
             position: fixed;
@@ -95,7 +98,8 @@
             border-radius: 20px 0 0 20px; /* Rounded corners on the left */
             resize: none;
             font-size: 1.2em;
-            font-family: 'Comic Sans MS', cursive, sans-serif; /* Comic Sans MS font for user input */
+            /* FONT STACK: Comic Sans MS > Patrick Hand > generic cursive */
+            font-family: 'Comic Sans MS', 'Patrick Hand', cursive, sans-serif; 
             background-color: #ffffff;
             color: #000000;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -140,7 +144,8 @@
             width: 160px;
             min-height: 80px;
             box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.4); 
-            font-family: 'Comic Sans MS', cursive, sans-serif; /* Comic Sans MS font for notes */
+            /* FONT STACK: Comic Sans MS > Patrick Hand > generic cursive */
+            font-family: 'Comic Sans MS', 'Patrick Hand', cursive, sans-serif; 
             font-size: 1em;
             text-align: left;
             word-wrap: break-word;
@@ -194,7 +199,7 @@
             if (distance <= 0) {
                 clearInterval(siteCountdownInterval);
                 countdownEl.innerHTML = "SITE EXPIRED - GONE FOREVER.";
-                // Erase the main content with the new clean background style
+                // Erase the main content
                 document.body.innerHTML = '<div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; padding: 20px; background-color: #fffacd;"><h1>This monument to vanity has served its purpose and is now erased.</h1><p style="font-family:Arial, sans-serif; color:black;">The 72-hour cycle is complete.</p></div>';
                 return;
             }
