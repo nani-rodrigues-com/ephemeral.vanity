@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ephemeral Vanity Project</title>
+    <style>
+        /* --- CSS Styling (CUSTOMIZED LOOK) --- */
+        body {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Impact-style font */
+            background-color: #fffacd; /* Soft yellow background (Lemon Chiffon) */
+            color: #000000; /* Black text */
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            overflow: hidden; 
+            min-height: 100vh;
+        }
+
+        /* Global Site Countdown - Hidden for "Completely Blank" look, but functional */
+        #countdown-container {
+            display: none; 
+            position: fixed;
+            z-index: 100;
+        }
+
+        /* Main Content */
+        main {
+            /* Center content vertically and horizontally */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            z-index: 50;
+            width: 90%; 
+            max-width: 600px; 
+            padding: 0;
+        }
+        
+        h1 {
+            /* "Welcome!" line */
+            font-size: 3em;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        h2 {
+            /* "What Does Vanity Mean To You?" line */
+            font-size: 2em;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #000000;
+        }
+        
+        /* Form Styling (Search Bar Look) */
+        #submission-form {
+            display: flex;
+            flex-direction: row; 
+            align-items: center;
+            width: 100%;
+            padding: 0;
+            background: none;
+            box-shadow: none;
+            border-radius: 0;
+        }
+
+        #vanity-text {
+            /* Style like a search bar */
+            width: 80%;
+            height: 40px;
+            padding: 10px 15px;
+            margin: 0;
+            border: 2px solid #000000;
+            border-right: none;
+            border-radius: 20px 0 0 20px; /* Rounded corners on the left */
+            resize: none;
+            font-size: 1.2em;
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Comic Sans MS font for user input */
+            background-color: #ffffff;
+            color: #000000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: auto; /* Hide scrollbar when not needed */
+        }
+
+        button {
+            /* Style like a search button */
+            width: 20%;
+            height: 64px; /* Match height of input for alignment */
+            padding: 0 10px;
+            background-color: #000000; /* Black button */
+            color: #fffacd; /* Soft yellow text on button */
+            border: none;
+            border-radius: 0 20px 20px 0; /* Rounded corners on the right */
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #333333;
+        }
+
+        /* Sticky Note Container */
+        #sticky-notes-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100vh;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Individual Sticky Note */
+        .sticky-note {
+            position: absolute;
+            padding: 15px;
+            width: 160px;
+            min-height: 80px;
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.4); 
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Comic Sans MS font for notes */
+            font-size: 1em;
+            text-align: left;
+            word-wrap: break-word;
+            color: #000000; /* Black text for legibility */
+            transition: opacity 1s ease-out;
+            pointer-events: none;
+            line-height: 1.4;
+        }
+
+        .sticky-note.fading {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="countdown-container">
+        Ephemeral Site Countdown: **<span id="countdown">Calculating...</span>**
+    </div>
+
+    <main>
+        <h1>Welcome!</h1>
+        <h2>What does **vanity** mean to you?</h2>
+        
+        <form id="submission-form">
+            <textarea id="vanity-text" placeholder="Type your fleeting thought here..." required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+
+    <div id="sticky-notes-container">
+        </div>
+
+    <script>
+        // --- JAVASCRIPT LOGIC ---
+
+        // 72 HOURS: Set the site expiration time (in milliseconds since Unix Epoch)
+        const siteDurationMs = 72 * 60 * 60 * 1000;
+        const deployTime = new Date().getTime(); 
+        const expirationTime = deployTime + siteDurationMs;
+        
+
+        const countdownEl = document.getElementById('countdown');
+
+        // --- 1. Site Self-Destruct Countdown (72 Hours) ---
+        // This runs in the background even though it's hidden.
+        const siteCountdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = expirationTime - now;
+
+            if (distance <= 0) {
+                clearInterval(siteCountdownInterval);
+                countdownEl.innerHTML = "SITE EXPIRED - GONE FOREVER.";
+                // Erase the main content to emphasize deletion
+                document.body.innerHTML = '<div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center;"><h1>This monument to vanity has served its purpose and is now erased.</h1><p style="font-family:sans-serif; color:black;">The 72-hour cycle is complete.</p></div>';
+                return;
+            }
+
+            // Time calculations for hours, minutes and seconds
+            const hours = Math.floor(distance / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            countdownEl.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
+        }, 1000);
+
+
+        // --- 2. Sticky Note Creation and 10-Minute Erasure ---
+        const form = document.getElementById('submission-form');
+        const container = document.getElementById('sticky-notes-container');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const answerTextarea = document.getElementById('vanity-text');
+            const answer = answerTextarea.value;
+            
+            if (answer.trim() === '') return;
+
+            // 1. Create the sticky note element
+            const note = document.createElement('div');
+            note.className = 'sticky-note';
+            note.innerHTML = `<p>${answer}</p>`;
+            
+            // Array of requested colors (Pink, Light Blue, Green, Light Purple)
+            const colors = [
+                '#ffc0cb', // Pink
+                '#add8e6', // Light Blue
+                '#90ee90', // Light Green
+                '#e6e6fa'  // Light Purple (Lavender)
+            ];
+            
+            // Choose a random color and apply it
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            note.style.backgroundColor = randomColor;
+
+
+            // Random position and rotation for the "floating" effect
+            note.style.top = `${Math.random() * 70 + 15}vh`; // 15vh (below center) to 85vh
+            note.style.left = `${Math.random() * 80 + 10}vw`; // 10vw to 90vw
+            note.style.transform = `rotate(${Math.random() * 10 - 5}deg)`; // -5deg to +5deg rotation
+
+            container.appendChild(note);
+
+            // Clear the input box
+            answerTextarea.value = '';
+
+            // 2. Set the 10-minute (600,000ms) self-destruction timer
+            const TEN_MINUTES_MS = 10 * 60 * 1000;
+            
+            setTimeout(() => {
+                // Remove the note from the page completely
+                note.classList.add('fading'); // Start CSS fade-out effect
+                
+                // Wait 1 second (matching the CSS transition time) then remove element
+                setTimeout(() => {
+                    note.remove();
+                }, 1000); 
+
+            }, TEN_MINUTES_MS); 
+        });
+    </script>
+
+</body>
+</html>
